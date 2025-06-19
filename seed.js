@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 const { faker } = require('@faker-js/faker');
 require('dotenv').config();
 
+
+
 const Material = require('./models/Material');
 const Warehouse = require('./models/Warehouse');
 const Stock = require('./models/Stock');
@@ -81,7 +83,7 @@ async function seed() {
     });
   }
 
-  console.log('Test data seeded!');
+  console.log('Test data was seeded!');
   await mongoose.disconnect();
 }
 
