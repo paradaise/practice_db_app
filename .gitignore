@@ -1,0 +1,20 @@
+# Node.js
+node_modules/
+
+# dotenv environment variables
+.env
+
+# MongoDB data (если вдруг появится локально)
+mongo_data/
+
+# Логи
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ОС
+.DS_Store
+Thumbs.db
+
+# VSCode
+.vscode/ 
