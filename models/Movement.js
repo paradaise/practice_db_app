@@ -5,6 +5,8 @@ const MovementSchema = new mongoose.Schema({
   toWarehouse: { type: mongoose.Schema.Types.ObjectId, ref: 'Warehouse' },
   quantity: { type: Number, required: true },
   date: { type: Date, default: Date.now },
-  type: { type: String, enum: ['in', 'out', 'move'], required: true }
+  type: { type: String, enum: ['in', 'out', 'move'], required: true },
+  comment: String,
+  operator: String
 });
 module.exports = mongoose.model('Movement', MovementSchema); 
