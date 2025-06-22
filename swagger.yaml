@@ -1,0 +1,565 @@
+openapi: 3.0.0
+info:
+  title: Bank Cash Operations API
+  description: REST API для учёта кассовых операций коммерческого банка.
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:3000/api
+    description: Локальный сервер для разработки
+
+tags:
+  - name: Clients
+    description: Операции с клиентами банка
+  - name: Accounts
+    description: Операции со счетами клиентов
+  - name: Transactions
+    description: Кассовые операции (транзакции)
+  - name: Cashiers
+    description: Операции с кассирами
+
+paths:
+  /clients:
+    get:
+      tags: [Clients]
+      summary: Получить список всех клиентов
+      responses:
+        "200":
+          description: Успешный ответ со списком клиентов
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Client"
+    post:
+      tags: [Clients]
+      summary: Создать нового клиента
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ClientInput"
+      responses:
+        "201":
+          description: Клиент успешно создан
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Client"
+
+  /clients/{id}:
+    get:
+      tags: [Clients]
+      summary: Получить клиента по ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Успешный ответ с данными клиента
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Client"
+        "404":
+          description: Клиент не найден
+    put:
+      tags: [Clients]
+      summary: Обновить клиента по ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ClientInput"
+      responses:
+        "200":
+          description: Клиент успешно обновлен
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Client"
+        "404":
+          description: Клиент не найден
+    delete:
+      tags: [Clients]
+      summary: Удалить клиента по ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Клиент успешно удален
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Deleted
+        "404":
+          description: Клиент не найден
+
+  # --- Accounts ---
+  /accounts:
+    get:
+      tags: [Accounts]
+      summary: Получить список всех счетов
+      responses:
+        "200":
+          description: Список счетов с данными владельцев
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Account"
+    post:
+      tags: [Accounts]
+      summary: Создать новый счёт
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Account"
+      responses:
+        "201":
+          description: Счёт успешно создан
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Account"
+
+  /accounts/{id}:
+    get:
+      tags: [Accounts]
+      summary: Получить счёт по ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Успешный ответ с данными счёта
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Account"
+        "404":
+          description: Счёт не найден
+    put:
+      tags: [Accounts]
+      summary: Обновить счёт по ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Account"
+      responses:
+        "200":
+          description: Счёт успешно обновлён
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Account"
+        "404":
+          description: Счёт не найден
+    delete:
+      tags: [Accounts]
+      summary: Удалить счёт по ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Счёт успешно удалён
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Deleted
+        "404":
+          description: Счёт не найден
+
+  # --- Transactions ---
+  /transactions:
+    get:
+      tags: [Transactions]
+      summary: Получить список всех транзакций
+      responses:
+        "200":
+          description: Список всех транзакций
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Transaction"
+    post:
+      tags: [Transactions]
+      summary: Создать новую транзакцию
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TransactionInput"
+      responses:
+        "201":
+          description: Транзакция успешно создана
+
+  /transactions/{id}:
+    get:
+      tags: [Transactions]
+      summary: Получить транзакцию по ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Успешный ответ с данными транзакции
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Transaction"
+        "404":
+          description: Транзакция не найдена
+
+  # --- Cashiers ---
+  /cashiers:
+    get:
+      tags: [Cashiers]
+      summary: Получить список всех кассиров
+      responses:
+        "200":
+          description: Список всех кассиров
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Cashier"
+    post:
+      tags: [Cashiers]
+      summary: Создать нового кассира
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Cashier"
+      responses:
+        "201":
+          description: Кассир успешно создан
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Cashier"
+
+  /cashiers/{id}:
+    get:
+      tags: [Cashiers]
+      summary: Получить кассира по ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Успешный ответ с данными кассира
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Cashier"
+        "404":
+          description: Кассир не найден
+    put:
+      tags: [Cashiers]
+      summary: Обновить кассира по ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Cashier"
+      responses:
+        "200":
+          description: Кассир успешно обновлён
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Cashier"
+        "404":
+          description: Кассир не найден
+    delete:
+      tags: [Cashiers]
+      summary: Удалить кассира по ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Кассир успешно удалён
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Deleted
+        "404":
+          description: Кассир не найден
+
+components:
+  schemas:
+    Client:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: 60d0fe4f5311236168a109ca
+        firstName:
+          type: string
+          example: Иван
+        lastName:
+          type: string
+          example: Иванов
+        passportSeries:
+          type: string
+          example: "4510"
+        passportNumber:
+          type: string
+          example: "123456"
+        tin:
+          type: string
+          example: "123456789012"
+        type:
+          type: string
+          enum: [individual, legal]
+        createdAt:
+          type: string
+          format: date-time
+
+    ClientInput:
+      type: object
+      properties:
+        firstName:
+          type: string
+          example: Иван
+        lastName:
+          type: string
+          example: Иванов
+        passportSeries:
+          type: string
+          example: "4510"
+        passportNumber:
+          type: string
+          example: "123456"
+        tin:
+          type: string
+          example: "123456789012"
+        type:
+          type: string
+          enum: [individual, legal]
+
+    Account:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Уникальный идентификатор счёта
+          example: 60d0fe4f5311236168a109cb
+        clientId:
+          type: string
+          description: ID клиента, владельца счёта
+          example: 60d0fe4f5311236168a109ca
+        accountNumber:
+          type: string
+          description: Номер счёта
+          example: 40817810099910004312
+        currency:
+          type: string
+          description: Валюта счёта
+          enum: [RUB, USD, EUR]
+          example: RUB
+        balance:
+          type: number
+          description: Баланс счёта
+          example: 15000.50
+        status:
+          type: string
+          description: Статус счёта
+          enum: [active, closed, frozen]
+          example: active
+      example:
+        _id: 60d0fe4f5311236168a109cb
+        clientId: 60d0fe4f5311236168a109ca
+        accountNumber: 40817810099910004312
+        currency: RUB
+        balance: 15000.50
+        status: active
+
+    Transaction:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Уникальный идентификатор транзакции
+          example: 60d0fe4f5311236168a109cc
+        type:
+          type: string
+          description: Тип транзакции
+          enum: [deposit, withdrawal, transfer]
+          example: deposit
+        amount:
+          type: number
+          description: Сумма транзакции
+          example: 5000
+        currency:
+          type: string
+          description: Валюта транзакции
+          enum: [RUB, USD, EUR]
+          example: RUB
+        fromAccount:
+          type: string
+          description: Счёт списания (для transfer/withdrawal)
+          example: 60d0fe4f5311236168a109cb
+        toAccount:
+          type: string
+          description: Счёт зачисления (для transfer/deposit)
+          example: 60d0fe4f5311236168a109cd
+        cashierId:
+          type: string
+          description: ID кассира, выполнившего операцию
+          example: 60d0fe4f5311236168a109ce
+        comment:
+          type: string
+          description: Комментарий к операции
+          example: Зарплата за июнь
+      example:
+        _id: 60d0fe4f5311236168a109cc
+        type: deposit
+        amount: 5000
+        currency: RUB
+        fromAccount: null
+        toAccount: 60d0fe4f5311236168a109cd
+        cashierId: 60d0fe4f5311236168a109ce
+        comment: Зарплата за июнь
+
+    TransactionInput:
+      type: object
+      properties:
+        type:
+          type: string
+          description: Тип транзакции
+          enum: [deposit, withdrawal, transfer]
+          example: deposit
+        amount:
+          type: number
+          description: Сумма транзакции
+          example: 5000
+        currency:
+          type: string
+          description: Валюта транзакции
+          enum: [RUB, USD, EUR]
+          example: RUB
+        fromAccount:
+          type: string
+          description: Счёт списания (для transfer/withdrawal)
+          example: 60d0fe4f5311236168a109cb
+        toAccount:
+          type: string
+          description: Счёт зачисления (для transfer/deposit)
+          example: 60d0fe4f5311236168a109cd
+        cashierId:
+          type: string
+          description: ID кассира
+          example: 60d0fe4f5311236168a109ce
+        comment:
+          type: string
+          description: Комментарий к операции
+          example: Зарплата за июнь
+      example:
+        type: deposit
+        amount: 5000
+        currency: RUB
+        fromAccount: null
+        toAccount: 60d0fe4f5311236168a109cd
+        cashierId: 60d0fe4f5311236168a109ce
+        comment: Зарплата за июнь
+
+    Cashier:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Уникальный идентификатор кассира
+          example: 60d0fe4f5311236168a109ce
+        firstName:
+          type: string
+          description: Имя кассира
+          example: Ольга
+        lastName:
+          type: string
+          description: Фамилия кассира
+          example: Петрова
+        position:
+          type: string
+          description: Должность
+          example: Старший кассир
+        branch:
+          type: string
+          description: Филиал
+          example: Центральный офис
+      example:
+        _id: 60d0fe4f5311236168a109ce
+        firstName: Ольга
+        lastName: Петрова
+        position: Старший кассир
+        branch: Центральный офис
