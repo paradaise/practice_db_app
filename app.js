@@ -13,10 +13,10 @@ mongoose.connect(process.env.MONGO_URI, {
   .catch(err => console.error('MongoDB connection error:', err));
 
 // Роуты
-app.use('/api/materials', require('./routes/materials'));
-app.use('/api/warehouses', require('./routes/warehouses'));
-app.use('/api/stock', require('./routes/stock'));
-app.use('/api/movements', require('./routes/movements'));
+app.use('/api/clients', require('./routes/clients'));
+app.use('/api/accounts', require('./routes/accounts'));
+app.use('/api/transactions', require('./routes/transactions'));
+app.use('/api/cashiers', require('./routes/cashiers'));
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`)); 
