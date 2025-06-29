@@ -6,6 +6,8 @@
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",
+    "stop": "pkill -f app.js || true",
+    "restart": "npm run stop && npm run start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
