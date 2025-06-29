@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏦 Банковская система</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1><i class="fas fa-university"></i> Банковская система</h1>
+            <nav class="nav">
+                <button class="nav-btn active" data-tab="clients">
+                    <i class="fas fa-users"></i> Клиенты
+                </button>
+                <button class="nav-btn" data-tab="accounts">
+                    <i class="fas fa-credit-card"></i> Счета
+                </button>
+                <button class="nav-btn" data-tab="transactions">
+                    <i class="fas fa-exchange-alt"></i> Транзакции
+                </button>
+                <button class="nav-btn" data-tab="cashiers">
+                    <i class="fas fa-user-tie"></i> Кассиры
+                </button>
+            </nav>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Clients Tab -->
+            <div id="clients" class="tab-content active">
+                <div class="tab-header">
+                    <h2><i class="fas fa-users"></i> Клиенты</h2>
+                    <button class="btn btn-primary" data-modal="clientModal">
+                        <i class="fas fa-plus"></i> Добавить клиента
+                    </button>
+                </div>
+                <div class="table-container">
+                    <table id="clientsTable" class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Имя</th>
+                                <th>Фамилия</th>
+                                <th>Паспорт</th>
+                                <th>ИНН</th>
+                                <th>Тип</th>
+                                <th>Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Accounts Tab -->
+            <div id="accounts" class="tab-content">
+                <div class="tab-header">
+                    <h2><i class="fas fa-credit-card"></i> Счета</h2>
+                    <button class="btn btn-primary" data-modal="accountModal">
+                        <i class="fas fa-plus"></i> Создать счет
+                    </button>
+                </div>
+                <div class="table-container">
+                    <table id="accountsTable" class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Номер счета</th>
+                                <th>Клиент</th>
+                                <th>Валюта</th>
+                                <th>Баланс</th>
+                                <th>Статус</th>
+                                <th>Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Transactions Tab -->
+            <div id="transactions" class="tab-content">
+                <div class="tab-header">
+                    <h2><i class="fas fa-exchange-alt"></i> Транзакции</h2>
+                    <button class="btn btn-primary" data-modal="transactionModal">
+                        <i class="fas fa-plus"></i> Новая транзакция
+                    </button>
+                </div>
+                <div class="table-container">
+                    <table id="transactionsTable" class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Тип</th>
+                                <th>Сумма</th>
+                                <th>Валюта</th>
+                                <th>От счета</th>
+                                <th>К счету</th>
+                                <th>Кассир</th>
+                                <th>Дата</th>
+                                <th>Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Cashiers Tab -->
+            <div id="cashiers" class="tab-content">
+                <div class="tab-header">
+                    <h2><i class="fas fa-user-tie"></i> Кассиры</h2>
+                    <button class="btn btn-primary" data-modal="cashierModal">
+                        <i class="fas fa-plus"></i> Добавить кассира
+                    </button>
+                </div>
+                <div class="table-container">
+                    <table id="cashiersTable" class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Имя</th>
+                                <th>Фамилия</th>
+                                <th>Должность</th>
+                                <th>Отделение</th>
+                                <th>Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    <!-- Client Modal -->
+    <div id="clientModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Добавить клиента</h3>
+                <span class="close" onclick="closeModal('clientModal')">&times;</span>
+            </div>
+            <form id="clientForm">
+                <div class="form-group">
+                    <label>Имя *</label>
+                    <input type="text" name="firstName" required>
+                </div>
+                <div class="form-group">
+                    <label>Фамилия *</label>
+                    <input type="text" name="lastName" required>
+                </div>
+                <div class="form-group">
+                    <label>Серия паспорта *</label>
+                    <input type="text" name="passportSeries" required>
+                </div>
+                <div class="form-group">
+                    <label>Номер паспорта *</label>
+                    <input type="text" name="passportNumber" required>
+                </div>
+                <div class="form-group">
+                    <label>ИНН</label>
+                    <input type="text" name="tin">
+                </div>
+                <div class="form-group">
+                    <label>Тип *</label>
+                    <select name="type" required>
+                        <option value="individual">Физическое лицо</option>
+                        <option value="legal">Юридическое лицо</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('clientModal')">Отмена</button>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Account Modal -->
+    <div id="accountModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Создать счет</h3>
+                <span class="close" onclick="closeModal('accountModal')">&times;</span>
+            </div>
+            <form id="accountForm">
+                <div class="form-group">
+                    <label>Клиент *</label>
+                    <select name="clientId" required></select>
+                </div>
+                <div class="form-group">
+                    <label>Номер счета *</label>
+                    <input type="text" name="accountNumber" required>
+                </div>
+                <div class="form-group">
+                    <label>Валюта *</label>
+                    <select name="currency" required>
+                        <option value="RUB">RUB</option>
+                        <option value="USD">USD</option>
+                        <option value="EUR">EUR</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Начальный баланс</label>
+                    <input type="number" name="balance" value="0" min="0" step="0.01">
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('accountModal')">Отмена</button>
+                    <button type="submit" class="btn btn-primary">Создать</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Transaction Modal -->
+    <div id="transactionModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Новая транзакция</h3>
+                <span class="close" onclick="closeModal('transactionModal')">&times;</span>
+            </div>
+            <form id="transactionForm">
+                <div class="form-group">
+                    <label>Тип операции *</label>
+                    <select name="type" required onchange="toggleTransactionFields()">
+                        <option value="deposit">Пополнение</option>
+                        <option value="withdrawal">Снятие</option>
+                        <option value="transfer">Перевод</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Сумма *</label>
+                    <input type="number" name="amount" required min="0.01" step="0.01">
+                </div>
+                <div class="form-group">
+                    <label>Валюта *</label>
+                    <select name="currency" required>
+                        <option value="RUB">RUB</option>
+                        <option value="USD">USD</option>
+                        <option value="EUR">EUR</option>
+                    </select>
+                </div>
+                <div class="form-group" id="fromAccountGroup">
+                    <label>Счет списания</label>
+                    <select name="fromAccount"></select>
+                </div>
+                <div class="form-group">
+                    <label>Счет зачисления *</label>
+                    <select name="toAccount" required></select>
+                </div>
+                <div class="form-group">
+                    <label>Кассир *</label>
+                    <select name="cashierId" required></select>
+                </div>
+                <div class="form-group">
+                    <label>Комментарий</label>
+                    <textarea name="comment" rows="3"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('transactionModal')">Отмена</button>
+                    <button type="submit" class="btn btn-primary">Выполнить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Cashier Modal -->
+    <div id="cashierModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Добавить кассира</h3>
+                <span class="close" onclick="closeModal('cashierModal')">&times;</span>
+            </div>
+            <form id="cashierForm">
+                <div class="form-group">
+                    <label>Имя *</label>
+                    <input type="text" name="firstName" required>
+                </div>
+                <div class="form-group">
+                    <label>Фамилия *</label>
+                    <input type="text" name="lastName" required>
+                </div>
+                <div class="form-group">
+                    <label>Должность</label>
+                    <input type="text" name="position" value="Cashier Operator">
+                </div>
+                <div class="form-group">
+                    <label>Отделение</label>
+                    <select name="branch">
+                        <option value="Main Branch">Главное отделение</option>
+                        <option value="Westside Branch">Западное отделение</option>
+                        <option value="Downtown Branch">Центральное отделение</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('cashierModal')">Отмена</button>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Receipt Modal -->
+    <div id="receiptModal" class="modal">
+        <div class="modal-content receipt-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-receipt"></i> Чек операции</h3>
+                <span class="close" onclick="closeModal('receiptModal')">&times;</span>
+            </div>
+            <div id="receiptContent" class="receipt-body">
+                <!-- Receipt content will be inserted here -->
+            </div>
+            <div class="form-actions">
+                <button type="button" class="btn btn-primary" data-print-receipt>
+                    <i class="fas fa-print"></i> Печать
+                </button>
+                <button type="button" class="btn btn-secondary" onclick="closeModal('receiptModal')">Закрыть</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/main.js" type="module"></script>
+</body>
+</html> 

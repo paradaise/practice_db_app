@@ -4,7 +4,16 @@ const Transaction = require('../models/Transaction');
 const Account = require('../models/Account');
 
 router.get('/', async (req, res) => {
-  const items = await Transaction.find().populate('fromAccount toAccount cashierId');
+  const items = await Transaction.find()
+    .populate({
+      path: 'fromAccount',
+      populate: { path: 'clientId' }
+    })
+    .populate({
+      path: 'toAccount',
+      populate: { path: 'clientId' }
+    })
+    .populate('cashierId');
   res.json(items);
 });
 
@@ -50,7 +59,10 @@ router.post('/', async (req, res) => {
 });
 
 router.get('/:id', async (req, res) => {
-  const item = await Transaction.findById(req.params.id).populate('fromAccount toAccount cashierId');
+  const item = await Transaction.findById(req.params.id)
+    .populate({ path: 'fromAccount', populate: { path: 'clientId' } })
+    .populate({ path: 'toAccount', populate: { path: 'clientId' } })
+    .populate('cashierId');
   res.json(item);
 });
 
