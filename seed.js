@@ -42,7 +42,7 @@ async function seed() {
       passportNumber: faker.string.numeric(6),
       tin: faker.string.numeric(12),
       type: 'individual'
-    });
+    }); 
 
     accounts.push(await Account.create({
       clientId: client._id,
